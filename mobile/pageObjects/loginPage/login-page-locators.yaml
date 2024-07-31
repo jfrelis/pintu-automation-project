@@ -1,0 +1,4 @@
+email_input_field: //android.widget.EditText[@resource-id="com.loginmodule.learning:id/textInputEditTextEmail"]
+password_input_field: //android.widget.EditText[@resource-id="com.loginmodule.learning:id/textInputEditTextPassword"]
+login_button: //android.widget.Button[@resource-id="com.loginmodule.learning:id/appCompatButtonLogin"]
+register_link: //android.widget.TextView[@resource-id="com.loginmodule.learning:id/textViewLinkRegister"]
