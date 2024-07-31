@@ -1,0 +1,4 @@
+name_registration_error: "Enter Full Name"
+email_registration_error: "Enter Valid Email"
+password_not_match_registration_error: "Password Does Not Matches"
+email_already_exists_registration_error: "Email Already Exists"
