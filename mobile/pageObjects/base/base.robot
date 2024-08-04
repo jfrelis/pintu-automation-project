@@ -19,7 +19,6 @@ Open Login Register Application
     ...                    deviceName=${DEVICE_NAME}    
     ...                    appPackage=${APP_PACKAGE}    
     ...                    appActivity=${APP_ACTIVITY}
-    ...                    noReset=${True}
 
 Close Login Register Application
     Close Application
