@@ -1,5 +1,4 @@
 *** Settings ***
-Resource        ../pageObjects/loginPage/loginPage.robot
 Resource        ../pageObjects/registerPage/registerPage.robot
 Resource        ../pageObjects/userInfoPage/userInfoPage.robot
 Test Setup      Run Keywords      Open Login Register Application    
@@ -18,8 +17,10 @@ User Should Be Able To Register With Valid Data
     Verify Register Success Message Appears
 
 User Should Not Be Able To Register With Registered Data
-    # This case is expected to fail if executed as standalone for the first time due to not supported pre-defined data in the apps.
     [Tags]    apps    apps:negative-case    apps:register    apps:TC-REG-005
+    [Setup]   Run Keywords      Open Login Register Application     
+    ...    AND    Register User With Valid Data    
+    ...    AND    Go To Register Page By Clicking Register Link
     Verify Register Page Appears
     Input User Name                          user_name=${USER_NAME}
     registerPage.Input User Email            user_email=${USER_EMAIL}
@@ -46,7 +47,17 @@ User Should Not Be Able To Register With Empty Email Data
     registerPage.Input User Password         user_password=random
     Input User Password Confirmation         user_password=${USER_PASSWORD}
     Click Register Button
-    Verify Register Error Message Appears    error_message=${email_registration_error}
+    Verify Register Error Message Appears    error_message=${email_not_valid_error}
+
+User Should Not Be Able To Register With Empty Password Data
+    [Tags]    apps    apps:negative-case    apps:register    apps:TC-REG-006
+    Verify Register Page Appears
+    Input User Name                          user_name=random
+    registerPage.Input User Email            user_email=random
+    registerPage.Input User Password         user_password=${EMPTY}
+    Input User Password Confirmation         user_password=${USER_PASSWORD}
+    Click Register Button
+    Verify Register Error Message Appears    error_message=${password_empty_error}    
 
 User Should Not Be Able To Register With Different Password And Confirm Password Data
     [Tags]    apps    apps:negative-case    apps:register    apps:TC-REG-004
@@ -57,3 +68,23 @@ User Should Not Be Able To Register With Different Password And Confirm Password
     Input User Password Confirmation         user_password=random
     Click Register Button
     Verify Register Error Message Appears    error_message=${password_not_match_registration_error}
+
+User Should Not Be Able To Register With SQL Injection Potential In Name Data
+    [Tags]    apps    apps:negative-case    apps:register    apps:TC-REG-007    BUG-002
+    Verify Register Page Appears
+    Input User Name                          user_name=;delete from users --
+    registerPage.Input User Email            user_email=test@test.com
+    registerPage.Input User Password         user_password=random
+    Input User Password Confirmation         user_password=${USER_PASSWORD}
+    Click Register Button
+    Verify Register Error Message Appears    error_message=${name_registration_error}
+
+User Should Not Be Able To Register With SQL Injection Potential In Email Data
+    [Tags]    apps    apps:negative-case    apps:register    apps:TC-REG-008
+    Verify Register Page Appears
+    Input User Name                          user_name=random
+    registerPage.Input User Email            user_email=test@test.com); delete from users --
+    registerPage.Input User Password         user_password=random
+    Input User Password Confirmation         user_password=${USER_PASSWORD}
+    Click Register Button
+    Verify Register Error Message Appears    error_message=${email_not_valid_error}
