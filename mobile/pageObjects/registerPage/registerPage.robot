@@ -1,5 +1,6 @@
 *** Settings ***
 Resource        ../base/base.robot
+Resource        ../loginPage/loginPage.robot
 Variables       register-page-locators.yaml
 
 *** Variables ***
@@ -59,3 +60,19 @@ Verify Register Error Message Appears
 
 Swipe To Bottom Of The Screen
     Swipe By Percent                 start_x=50    start_y=70    end_x=50    end_y=50
+
+Go To Login Page By Clicking Login Link
+    [Arguments]    ${timeout}=5s
+    Wait Until Page Does Not Contain Element   ${register_success_message_text}    timeout=${timeout}
+    Click Element        ${login_link}
+
+Register User With Valid Data
+    Go To Register Page By Clicking Register Link
+    Verify Register Page Appears
+    Input User Name                     user_name=random
+    Input User Email                    user_email=random
+    Input User Password                 user_password=random
+    Input User Password Confirmation    user_password=${USER_PASSWORD}
+    Click Register Button
+    Verify Register Success Message Appears
+    Go To Login Page By Clicking Login Link

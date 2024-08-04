@@ -1,11 +1,12 @@
 *** Settings ***
 Resource        ../base/base.robot
+Resource        ../registerPage/registerPage.robot
 Variables       login-page-locators.yaml
 
 *** Variables ***
-${VALID_PREDEFINED_EMAIL}        jojo-test@test.com
-${VALID_PREDEFINED_PASS}         jojotest123
-${VALID_PREDEFINED_NAME}         jojotest
+${PREDEFINED_EMAIL}        jojo-test@test.com
+${PREDEFINED_PASS}         jojotest123
+${PREDEFINED_NAME}         jojotest
 
 *** Keywords ***
 Verify Login Page Appears
@@ -28,3 +29,6 @@ Go To Register Page By Clicking Register Link
 Click Login Button
     Click Element    ${login_button}
 
+Verify Login Error Message Appears
+    [Arguments]    ${error_message}=${null}
+    Wait Until Element Is Visible        ${login_error_message_text.replace("{0}", "${error_message}")}

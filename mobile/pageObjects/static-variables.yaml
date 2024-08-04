@@ -1,4 +1,6 @@
 name_registration_error: "Enter Full Name"
-email_registration_error: "Enter Valid Email"
+email_not_valid_error: "Enter Valid Email"
+password_empty_error: "Enter Password"
 password_not_match_registration_error: "Password Does Not Matches"
 email_already_exists_registration_error: "Email Already Exists"
+wrong_data_login_error: "Wrong Email or Password"
